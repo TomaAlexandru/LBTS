@@ -68,6 +68,4 @@ class TaskProcessor(dict):
         task['waiting_time'] = self.env.now - task['time_arrival'] - task['time_processing']
         task['finished_at'] = self.env.now
         task['processor_index'] = self.index
-        # print(self.index,"::",task)
-        x = json.dumps(self)
         self.out_pipe.put({'task': task, 'current_resources': self.copy()})
