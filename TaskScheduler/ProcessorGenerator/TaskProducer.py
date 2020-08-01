@@ -10,9 +10,9 @@ class TaskProducer:
             currentTime = self.env.now
             for task in tasks:
                 if task['time_arrival'] == currentTime:
-                    taskChunk.append(task)
+                    taskChunk.append(Task(task))
                 else:
-                    break
+                   break
             tasks = tasks[len(taskChunk):]
             self.env.taskProducer_queue_pipe.put(taskChunk)
             yield self.env.timeout(1)
