@@ -13,13 +13,13 @@ class TaskProcessor(dict):
         self.pending_tasks = []
         self.env.process(self.process_tasks())
         self.buffer = []
+        self.now = None
     def set_current_resources(self):
         for type, value in self.env.task_processor_resource.items():
             self[type] = value
 
     def run(self):
         while True:
-            self.now = self.env.now
             while len(self.in_pipe.items) > 0:
                 """ TASK RECEPTION """
                 task = yield self.in_pipe.get()
@@ -48,7 +48,7 @@ class TaskProcessor(dict):
         while True:
             current_finished_tasks = []
             for i, task in enumerate(self.in_processing_tasks):
-                if task['time_arrival'] + task['time_processing'] <= self.env.now:
+                if task['time_arrival'] + task['time_processing'] <= self.now:
                     """ release resources """
                     self.release_resources(task)
                     current_finished_tasks.append(i)
@@ -57,6 +57,7 @@ class TaskProcessor(dict):
 
     """ reserve resource from current task processor """
     def reserve_resources(self, task):
+        task['waiting_time'] = self.now - task['time_arrival']
         for type, value in self.items():
             self[type] = self[type] - task[type]
         self.in_processing_tasks.append(task)
@@ -65,7 +66,6 @@ class TaskProcessor(dict):
     def release_resources(self, task):
         for type, value in self.items():
             self[type] = self[type] + task[type]
-        task['waiting_time'] = self.env.now - task['time_arrival'] - task['time_processing']
-        task['finished_at'] = self.env.now
+        task['finished_at'] = task['time_arrival'] + task['waiting_time'] + task['time_processing']
         task['processor_index'] = self.index
         self.out_pipe.put({'task': task, 'current_resources': self.copy()})

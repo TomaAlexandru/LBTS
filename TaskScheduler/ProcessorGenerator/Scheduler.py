@@ -24,6 +24,8 @@ class Scheduler:
             self.env.process(taskProcessor.run())
         while True:
             tasks = yield self.env.queue.get()
+            for taskProc in tasksProcessor:
+                taskProc.now = self.env.now -1
 
             """ schedulling tasks this unit time """
             """ ROUND ROBIN """
