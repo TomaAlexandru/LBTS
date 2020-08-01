@@ -37,6 +37,7 @@ class Scheduler:
             for in_pipe in self.in_pipes:
                 while in_pipe.items:
                     finished_task = yield in_pipe.get()
+                    print(finished_task)
                     self.finished_tasks.append(finished_task)
 
                     """ OPERATION FINISHED """

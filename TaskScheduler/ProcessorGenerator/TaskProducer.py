@@ -1,3 +1,5 @@
+from .Task import Task
+
 class TaskProducer:
     def __init__(self, env):
         self.env = env

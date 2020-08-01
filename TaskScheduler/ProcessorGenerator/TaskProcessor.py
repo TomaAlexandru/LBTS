@@ -67,5 +67,10 @@ class TaskProcessor(dict):
         for type, value in self.items():
             self[type] = self[type] + task[type]
         task['finished_at'] = task['time_arrival'] + task['waiting_time'] + task['time_processing']
-        task['processor_index'] = self.index
-        self.out_pipe.put({'task': task, 'current_resources': self.copy()})
+        self.out_pipe.put(
+            {
+                'processor_index': self.index,
+                'task': task,
+                'current_resources': self.copy()
+            }
+        )
