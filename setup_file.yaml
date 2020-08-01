@@ -1,0 +1,16 @@
+"generate":
+  "number_of_tasks": 10000
+  "max_values_for_task_parameters":
+    "cpu": 4
+    "memory": 512
+    "disk": 1024
+    "time_arrival": 3
+    "time_processing": 10
+  "system_latency": 2
+
+"process": 
+  "number_of_task_processors": 1
+  "max_values_for_task_processor_parameters":
+    "cpu": 5
+    "memory": 768
+    "disk": 1536
