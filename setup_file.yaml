@@ -11,6 +11,6 @@
 "process": 
   "number_of_task_processors": 1
   "max_values_for_task_processor_parameters":
-    "cpu": 11
+    "cpu": 12
     "memory": 11000
     "disk": 20000

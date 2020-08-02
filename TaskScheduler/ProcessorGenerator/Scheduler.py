@@ -1,11 +1,16 @@
 from .TaskProcessor import TaskProcessor
 from ..Heuristics import *
 import simpy, time, json
-
+from ..Heuristics.RoundRobin import RoundRobin
+from ..Heuristics.Random import Random
+from ..Heuristics.ShortestProcessingTime import ShortestProcessingTime
 
 class Scheduler:
     def __init__(self, env):
         self.env = env
+        self.round_robin = RoundRobin()
+        self.random = Random()
+        self.shortest_processing_time = ShortestProcessingTime()
 
     def schedule_tasks(self):
         self.env.scheduler_processor_pipe = simpy.Store(self.env)
@@ -29,20 +34,17 @@ class Scheduler:
 
             """ schedulling tasks this unit time """
             """ ROUND ROBIN """
-            for task in tasks:
-                current_task_iterator = (current_task_iterator + 1) % self.env.number_of_task_processors
-                self.out_pipes[current_task_iterator].put(task)
+            self.shortest_processing_time.schedule(self.out_pipes, tasks, self.env.number_of_task_processors)
 
             """ TASK RECEPTION """
             for in_pipe in self.in_pipes:
                 while in_pipe.items:
                     finished_task = yield in_pipe.get()
-                    print(finished_task)
                     self.finished_tasks.append(finished_task)
 
                     """ OPERATION FINISHED """
                     if self.env.number_of_tasks == len(self.finished_tasks):
-                        with open("finished_tasks.json", "w") as twitter_data_file:
+                        with open("Reports/finished_tasks.json", "w") as twitter_data_file:
                             json.dump(self.finished_tasks, twitter_data_file, indent=4, sort_keys=True)
                         exit()
 
