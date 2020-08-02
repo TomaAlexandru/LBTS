@@ -20,7 +20,8 @@ with open(r'setup_file.yaml') as file:
         task_resources_distributions = taskFile.split(".")[0]
         file = open("GeneratedTasks/%s.json" % task_resources_distributions, "r")
         tasks = json.loads(file.read())
-
-        scheduler = SimulationEnvironment(tasks, number_of_task_processors, task_processor_resources, number_of_tasks)
-        scheduler.run()
-
+        try:
+            scheduler = SimulationEnvironment(tasks, number_of_task_processors, task_processor_resources, number_of_tasks, task_resources_distributions)
+            scheduler.run()
+        except Exception as e:
+            print(e)

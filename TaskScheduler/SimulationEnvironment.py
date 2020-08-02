@@ -13,7 +13,7 @@ class SimulationEnvironment(simpy.Environment):
         'utilization_of_machines'
     ]
 
-    def __init__(self, tasks, number_of_task_processors, task_processor_resource, number_of_tasks):
+    def __init__(self, tasks, number_of_task_processors, task_processor_resource, number_of_tasks, task_resources_distributions):
         super().__init__()
         self.tasks = tasks
         self.number_of_task_processors = number_of_task_processors
@@ -30,7 +30,7 @@ class SimulationEnvironment(simpy.Environment):
         """ TaskProducer -> Queue """
         self.process(self.task_reception())
         self.process(self.taskProducer.send_tasks(tasks))
-        self.process(self.scheduler.schedule_tasks())
+        self.process(self.scheduler.schedule_tasks(task_resources_distributions))
 
     """ TASKS ARE PUSHED INTO QUEUE """
     def task_reception(self):

@@ -13,7 +13,7 @@ class Scheduler:
         self.random = Random()
         self.shortest_processing_time = ShortestProcessingTime()
 
-    def schedule_tasks(self):
+    def schedule_tasks(self, task_resources_distributions):
         self.env.scheduler_processor_pipe = simpy.Store(self.env)
         tasksProcessor = []
         self.out_pipes = []
@@ -43,10 +43,9 @@ class Scheduler:
 
                     """ OPERATION FINISHED """
                     if self.env.number_of_tasks == len(self.finished_tasks):
-                        with open("Reports/finished_tasks.json", "w") as twitter_data_file:
+                        with open("Reports/%s.json" % task_resources_distributions, "w") as twitter_data_file:
                             json.dump(self.finished_tasks, twitter_data_file, indent=4, sort_keys=True)
-                        # raise StopSimulation(0)
-                        exit()
+                        raise Exception('spam', 'eggs')
 
 
 
