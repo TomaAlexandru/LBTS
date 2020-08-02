@@ -1,21 +1,9 @@
-from .Heuristics.CriticalRatio import CriticalRatio
-from .Heuristics.EarliestDueDate import EarliestDueDate
-from .Heuristics.FirstComeFirstServed import FirstComeFirstServed
-from .Heuristics.ShortestProcessingTime import ShortestProcessingTime
-from .Heuristics.Random import Random
 from .ProcessorGenerator.TaskProducer import TaskProducer
 from .ProcessorGenerator.Queue import Queue
 from .ProcessorGenerator.Scheduler import Scheduler
 import simpy
 
 class SimulationEnvironment(simpy.Environment):
-    heuristics = [
-        CriticalRatio,
-        EarliestDueDate,
-        FirstComeFirstServed,
-        Random,
-        ShortestProcessingTime
-    ]
 
     performance_evaluations_criterion = [
         'makespan', # total time to completely process all jobs
@@ -49,12 +37,3 @@ class SimulationEnvironment(simpy.Environment):
         while True:
             tasks = yield self.taskProducer_queue_pipe.get()
             self.queue.put(tasks)
-
-    def get_heuristics_report(self):
-        result = {}
-        for heuristic in self.heuristics:
-            heuristicInstance = heuristic()
-            heuristicInstance.set_tasks(self.tasks, self.number_of_task_processors, self.task_processor_resource)
-            result[heuristic.__name__] = heuristicInstance.get_evaluation()
-
-        return result
