@@ -13,3 +13,6 @@ class Random:
             random_processor = random.choice(list_of_task_processors)
             out_pipes[random_processor].put(task)
             del tasks[task_index]
+
+    def __str__(self):
+        return 'random'

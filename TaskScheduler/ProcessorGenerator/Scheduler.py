@@ -1,24 +1,17 @@
 from .TaskProcessor import TaskProcessor
-from ..Heuristics import *
-import simpy, time, json
-from ..Heuristics.RoundRobin import RoundRobin
-from ..Heuristics.Random import Random
-from ..Heuristics.ShortestProcessingTime import ShortestProcessingTime
-from simpy.core import StopSimulation
+import simpy, json
 
 class Scheduler:
     def __init__(self, env):
         self.env = env
-        self.round_robin = RoundRobin()
-        self.random = Random()
-        self.shortest_processing_time = ShortestProcessingTime()
 
-    def schedule_tasks(self, task_resources_distributions):
+    def schedule_tasks(self, task_resources_distributions, heuristic):
         self.env.scheduler_processor_pipe = simpy.Store(self.env)
         tasksProcessor = []
         self.out_pipes = []
         self.in_pipes = []
         self.finished_tasks = []
+        heuristicInstance = heuristic()
         for i in range(self.env.number_of_task_processors):
             out_pipe = simpy.Store(self.env)
             in_pipe = simpy.Store(self.env)
@@ -33,7 +26,7 @@ class Scheduler:
                 taskProc.now = self.env.now -1
 
             """ schedulling tasks this unit time """
-            self.shortest_processing_time.schedule(self.out_pipes, tasks, self.env.number_of_task_processors)
+            heuristicInstance.schedule(self.out_pipes, tasks, self.env.number_of_task_processors)
 
             """ TASK RECEPTION """
             for in_pipe in self.in_pipes:
@@ -43,11 +36,9 @@ class Scheduler:
 
                     """ OPERATION FINISHED """
                     if self.env.number_of_tasks == len(self.finished_tasks):
-                        with open("Reports/%s.json" % task_resources_distributions, "w") as twitter_data_file:
+                        with open("Reports/%s_%s.json" % (task_resources_distributions, heuristicInstance.__str__()), "w") as twitter_data_file:
                             json.dump(self.finished_tasks, twitter_data_file, indent=4, sort_keys=True)
-                        raise Exception('spam', 'eggs')
-
-
+                        raise Exception(task_resources_distributions, heuristicInstance.__str__())
 
     def has_processing_resources(self):
         for i in range(self.env.number_of_task_processors):

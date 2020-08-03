@@ -6,3 +6,6 @@ class RoundRobin:
         for task in tasks:
             self.current_task_iterator = (self.current_task_iterator + 1) % number_of_task_processors
             out_pipes[self.current_task_iterator].put(task)
+
+    def __str__(self):
+        return 'roundRobin'

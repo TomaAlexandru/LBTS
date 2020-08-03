@@ -5,15 +5,8 @@ import simpy
 
 class SimulationEnvironment(simpy.Environment):
 
-    performance_evaluations_criterion = [
-        'makespan', # total time to completely process all jobs
-        'average_time_of_jobs',
-        'lateness',
-        'average_name_of_jobs_pending',
-        'utilization_of_machines'
-    ]
-
-    def __init__(self, tasks, number_of_task_processors, task_processor_resource, number_of_tasks, task_resources_distributions):
+    def __init__(self, tasks, number_of_task_processors, task_processor_resource, number_of_tasks,
+                 task_resources_distributions, heuristic):
         super().__init__()
         self.tasks = tasks
         self.number_of_task_processors = number_of_task_processors
@@ -30,7 +23,7 @@ class SimulationEnvironment(simpy.Environment):
         """ TaskProducer -> Queue """
         self.process(self.task_reception())
         self.process(self.taskProducer.send_tasks(tasks))
-        self.process(self.scheduler.schedule_tasks(task_resources_distributions))
+        self.process(self.scheduler.schedule_tasks(task_resources_distributions, heuristic))
 
     """ TASKS ARE PUSHED INTO QUEUE """
     def task_reception(self):
