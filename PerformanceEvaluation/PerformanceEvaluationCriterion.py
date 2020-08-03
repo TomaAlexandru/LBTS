@@ -2,8 +2,8 @@ class PerformanceEvaluationCriterion:
     performance_evaluations_criterion = [
         'makespan', # total time to completely process all jobs
         'average_time_of_jobs',
-        'lateness',
-        'average_name_of_jobs_pending',
+        'lateness', # waiting time
+        'sla_violation', # finished_at - due_time
         'utilization_of_machines'
     ]
 
