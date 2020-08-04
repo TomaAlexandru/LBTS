@@ -33,3 +33,4 @@ with open(r'setup_file.yaml') as file:
                 scheduler.run()
             except Exception as e:
                 print(e)
+                exit()

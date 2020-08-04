@@ -1,4 +1,3 @@
-from .ProcessorGenerator.TaskProducer import TaskProducer
 from .ProcessorGenerator.Queue import Queue
 from .ProcessorGenerator.Scheduler import Scheduler
 import simpy
@@ -16,17 +15,18 @@ class SimulationEnvironment(simpy.Environment):
         self.taskProducer_queue_pipe = simpy.Store(self)
 
         self.queue = Queue(self)
-        self.scheduler = Scheduler(self)
+        self.scheduler = Scheduler(self, heuristic)
 
-        self.taskProducer = TaskProducer(self)
+
+        self.task_resources_distributions = task_resources_distributions
+        self.heuristic = heuristic
 
         """ TaskProducer -> Queue """
         self.process(self.task_reception())
-        self.process(self.taskProducer.send_tasks(tasks))
-        self.process(self.scheduler.schedule_tasks(task_resources_distributions, heuristic))
 
     """ TASKS ARE PUSHED INTO QUEUE """
     def task_reception(self):
         while True:
-            tasks = yield self.taskProducer_queue_pipe.get()
-            self.queue.put(tasks)
+            tasks = [t for t in self.tasks if t['time_arrival'] == self.now]
+            self.scheduler.schedule_tasks(tasks, self.task_resources_distributions, self.now)
+            yield self.timeout(1)

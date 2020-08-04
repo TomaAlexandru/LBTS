@@ -1,5 +1,4 @@
 import numpy as np
-import simpy, json, copy
 
 class TaskProcessor(dict):
     def __init__(self, env, index, in_pipe, out_pipe):
@@ -11,7 +10,7 @@ class TaskProcessor(dict):
         self.set_current_resources()
         self.in_processing_tasks = []
         self.pending_tasks = []
-        self.env.process(self.process_tasks())
+        # self.env.process(self.process_tasks())
         self.buffer = []
         self.now = None
     def set_current_resources(self):
@@ -19,22 +18,21 @@ class TaskProcessor(dict):
             self[type] = value
 
     def run(self):
-        while True:
-            while len(self.in_pipe.items) > 0:
-                """ TASK RECEPTION """
-                task = yield self.in_pipe.get()
-                self.buffer = [task] + self.buffer
+        while len(self.in_pipe.items) > 0:
+            """ TASK RECEPTION """
+            task = self.in_pipe.items.pop()
+            self.buffer = [task] + self.buffer
 
-            """ CHECK LAST ENTRIES TO SEE IF ANY TASK CAN BE PROCESSED """
-            if len(self.buffer) > 0:
-                last_entry_time = self.buffer[-1]['time_arrival']
-                last_entries = [e for e in self.buffer if e['time_arrival'] == last_entry_time]
-                for i, last_entry in enumerate(last_entries):
-                    if self.has_available_resources_to_process_task(last_entry):
-                        self.reserve_resources(last_entry)
-                        del self.buffer[-(len(last_entries) - i)]
-            # print(self.index, "--",len(self.buffer), "||", + len(self.in_processing_tasks))
-            yield self.env.timeout(1)
+        """ CHECK LAST ENTRIES TO SEE IF ANY TASK CAN BE PROCESSED """
+        if len(self.buffer) > 0:
+            last_entry_time = self.buffer[-1]['time_arrival']
+            last_entries = [e for e in self.buffer if e['time_arrival'] == last_entry_time]
+            for i, last_entry in enumerate(last_entries):
+                if self.has_available_resources_to_process_task(last_entry):
+                    self.reserve_resources(last_entry)
+                    del self.buffer[-(len(last_entries) - i)]
+
+        self.process_tasks()
 
     def has_available_resources_to_process_task(self, task):
         task_can_be_processed = True
@@ -45,15 +43,13 @@ class TaskProcessor(dict):
 
     """ after processing time release task and processor resources """
     def process_tasks(self):
-        while True:
-            current_finished_tasks = []
-            for i, task in enumerate(self.in_processing_tasks):
-                if task['time_arrival'] + task['time_processing'] <= self.now:
-                    """ release resources """
-                    self.release_resources(task)
-                    current_finished_tasks.append(i)
-            self.in_processing_tasks = list(np.delete(self.in_processing_tasks, current_finished_tasks))
-            yield self.env.timeout(1)
+        current_finished_tasks = []
+        for i, task in enumerate(self.in_processing_tasks):
+            if task['time_arrival'] + task['time_processing'] <= self.now:
+                """ release resources """
+                self.release_resources(task)
+                current_finished_tasks.append(i)
+        self.in_processing_tasks = list(np.delete(self.in_processing_tasks, current_finished_tasks))
 
     """ reserve resource from current task processor """
     def reserve_resources(self, task):

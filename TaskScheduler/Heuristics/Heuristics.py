@@ -8,7 +8,7 @@ class Heuristics(dict):
     @staticmethod
     def get_list():
         return [
-            Random,
+            # Random,
             RoundRobin,
-            ShortestProcessingTime
+            # ShortestProcessingTime
         ]
