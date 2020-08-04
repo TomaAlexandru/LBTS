@@ -2,7 +2,15 @@ import json, yaml, sys
 from TaskScheduler.SimulationEnvironment import SimulationEnvironment
 from os import listdir
 from os.path import isfile, join
-from TaskScheduler.Heuristics.Heuristics import Heuristics
+from TaskScheduler.Heuristics.RoundRobin import RoundRobin
+
+
+def get_list():
+    return [
+        # Random,
+        RoundRobin,
+        # ShortestProcessingTime
+    ]
 
 with open(r'setup_file.yaml') as file:
     setup_data = yaml.load(file, Loader=yaml.FullLoader)
@@ -21,7 +29,7 @@ with open(r'setup_file.yaml') as file:
         task_resources_distributions = taskFile.split(".")[0]
         file = open("GeneratedTasks/%s.json" % task_resources_distributions, "r")
         tasks = json.loads(file.read())
-        for heuristic in Heuristics.get_list():
+        for heuristic in get_list():
             try:
                 scheduler = SimulationEnvironment(
                     tasks,

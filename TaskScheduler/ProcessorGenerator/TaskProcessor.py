@@ -1,21 +1,20 @@
 import numpy as np
 
 class TaskProcessor(dict):
-    def __init__(self, env, index, in_pipe, out_pipe):
+    def __init__(self, index, in_pipe, out_pipe, task_processor_resource):
         super().__init__()
-        self.env = env
         self.index = index
         self.in_pipe = in_pipe
         self.out_pipe = out_pipe
-        self.set_current_resources()
+
+        for type, value in task_processor_resource.items():
+            self[type] = value
+
         self.in_processing_tasks = []
         self.pending_tasks = []
-        # self.env.process(self.process_tasks())
         self.buffer = []
         self.now = None
-    def set_current_resources(self):
-        for type, value in self.env.task_processor_resource.items():
-            self[type] = value
+
 
     def run(self):
         while len(self.in_pipe.items) > 0:
