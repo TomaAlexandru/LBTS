@@ -1,6 +1,4 @@
-import json
 from .Heuristics import Heuristics
-import numpy as np
 
 class RoundRobin(Heuristics):
     def __init__(self, tasksProcessor):
@@ -9,24 +7,28 @@ class RoundRobin(Heuristics):
         self.finished_tasks = []
         self.number_of_task_processors = len(tasksProcessor)
 
-    def schedule(self, out_pipes, buffer):
-        print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
-        print(len(buffer))
+    def schedule(self, buffer):
+        currently_no_processor_available = False
+        """ take task from buffer one by one """
         while len(buffer) > 0:
-            last_entry = buffer[-1]
-            task_scheduled = False
+            """ loop with a single task in processor cluster and try to schedule """
             for processor_index in range(0, self.number_of_task_processors):
-                if len(buffer) == 0:
-                    break
-                print(self.current_task_iterator)
-                # if RoundRobin.has_available_resources_to_process_task(self.processors[self.current_task_iterator],
-                #                                                       last_entry):
-                #     self.processors[self.current_task_iterator].reserve_resources(last_entry)
-
-                del buffer[-1]
-                # else:
-                #     self.processors[self.current_task_iterator].has_resources = False
+                task_scheduled = False
+                """ IF WE FIND AVAILABLE PROCESSOR WE REMOVE FROM BUFFER AND MARK INNER ITERATION FOR BREAK """
+                if RoundRobin.has_available_resources_to_process_task(self.processors[self.current_task_iterator], buffer[-1]):
+                    self.processors[self.current_task_iterator].reserve_resources(buffer[-1])
+                    del buffer[-1]
+                    task_scheduled = True
                 self.current_task_iterator = (self.current_task_iterator + 1) % self.number_of_task_processors
+                """ IF TASK WAS SCHEDULED GO TO NEXT TASK -> THUS OUTER LOOP """
+                if task_scheduled:
+                    break
+                """ CURRENTLY NO RESOURCE AVAILABLE - WE CHECKED ALL PROCESSORS """
+                if processor_index == self.number_of_task_processors - 1:
+                    currently_no_processor_available = True
+
+            if currently_no_processor_available:
+                break
 
 
 

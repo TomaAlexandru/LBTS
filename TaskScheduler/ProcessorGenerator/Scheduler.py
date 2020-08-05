@@ -24,17 +24,22 @@ class Scheduler:
     """ method executed every time unit """
     def schedule_tasks(self, tasks, task_resources_distributions):
         self.buffer = tasks[::-1] + self.buffer
-        """task processor are agnostic about environment"""
+
+        # task processor are agnostic about environment
         for taskProc in self.tasksProcessor:
             taskProc.now = self.env.now
 
-        """ schedulling tasks """
-        self.heuristicInstance.schedule(self.out_pipes, self.buffer)
-        self.heuristicInstance.task_reception(self.env.number_of_tasks, task_resources_distributions, self.in_pipes)
+        """ SCHEDULE TASKS """
+        self.heuristicInstance.schedule(self.buffer)
 
-        """ execute and try to finish tasks """
+        """ PROCESS TASKS """
         for i in range(self.env.number_of_task_processors):
             self.tasksProcessor[i].process_tasks()
+
+        """ RECEIVE TASK PROCESSORS FINISHED TASKS """
+        self.heuristicInstance.task_reception(self.env.number_of_tasks, task_resources_distributions, self.in_pipes)
+
+
 
 
 

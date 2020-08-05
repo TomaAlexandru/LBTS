@@ -1,4 +1,5 @@
-a=3
-for i in range(a,10):
-    print(i)
-    a = a+3
+while True:
+    print("ooo")
+    while True:
+        print("iii")
+        break
