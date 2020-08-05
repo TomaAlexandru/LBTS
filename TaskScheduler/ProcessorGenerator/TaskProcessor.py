@@ -28,7 +28,7 @@ class TaskProcessor(dict):
 
     """ reserve resource from current task processor """
     def reserve_resources(self, task):
-        task['waiting_time'] = self.now - task['time_arrival'] if self.now - task['time_arrival'] >= 0 else 0
+        task['waiting_time'] = self.now - task['time_arrival']
         for type, value in self.items():
             self[type] = self[type] - task[type]
         self.in_processing_tasks.append(task)
