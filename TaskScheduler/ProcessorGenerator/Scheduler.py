@@ -9,7 +9,7 @@ class Scheduler:
         self.out_pipes = []
         self.in_pipes = []
         self.finished_tasks = []
-        self.heuristicInstance = heuristic()
+
         self.finished_tasks = []
         self.buffer = []
         for i in range(self.env.number_of_task_processors):
@@ -19,17 +19,22 @@ class Scheduler:
             self.tasksProcessor.append(taskProcessor)
             self.out_pipes.append(out_pipe)
             self.in_pipes.append(in_pipe)
+        self.heuristicInstance = heuristic(self.tasksProcessor)
 
-    def schedule_tasks(self, tasks, task_resources_distributions, current_time):
+    """ method executed every time unit """
+    def schedule_tasks(self, tasks, task_resources_distributions):
+        self.buffer = tasks[::-1] + self.buffer
+        """task processor are agnostic about environment"""
         for taskProc in self.tasksProcessor:
-            taskProc.now = current_time
+            taskProc.now = self.env.now
 
-        """ schedulling tasks this unit time """
-        self.heuristicInstance.schedule(self.out_pipes, tasks, self.env.number_of_task_processors)
+        """ schedulling tasks """
+        self.heuristicInstance.schedule(self.out_pipes, self.buffer)
         self.heuristicInstance.task_reception(self.env.number_of_tasks, task_resources_distributions, self.in_pipes)
 
+        """ execute and try to finish tasks """
         for i in range(self.env.number_of_task_processors):
-            self.tasksProcessor[i].run()
+            self.tasksProcessor[i].process_tasks()
 
 
 

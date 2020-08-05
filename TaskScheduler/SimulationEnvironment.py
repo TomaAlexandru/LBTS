@@ -28,5 +28,5 @@ class SimulationEnvironment(simpy.Environment):
     def task_reception(self):
         while True:
             tasks = [t for t in self.tasks if t['time_arrival'] == self.now]
-            self.scheduler.schedule_tasks(tasks, self.task_resources_distributions, self.now)
+            self.scheduler.schedule_tasks(tasks, self.task_resources_distributions)
             yield self.timeout(1)

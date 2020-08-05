@@ -6,39 +6,15 @@ class TaskProcessor(dict):
         self.index = index
         self.in_pipe = in_pipe
         self.out_pipe = out_pipe
+        self.has_resources = True
 
         for type, value in task_processor_resource.items():
             self[type] = value
 
         self.in_processing_tasks = []
         self.pending_tasks = []
-        self.buffer = []
         self.now = None
 
-
-    def run(self):
-        while len(self.in_pipe.items) > 0:
-            """ TASK RECEPTION """
-            task = self.in_pipe.items.pop()
-            self.buffer = [task] + self.buffer
-
-        """ CHECK LAST ENTRIES TO SEE IF ANY TASK CAN BE PROCESSED """
-        if len(self.buffer) > 0:
-            last_entry_time = self.buffer[-1]['time_arrival']
-            last_entries = [e for e in self.buffer if e['time_arrival'] == last_entry_time]
-            for i, last_entry in enumerate(last_entries):
-                if self.has_available_resources_to_process_task(last_entry):
-                    self.reserve_resources(last_entry)
-                    del self.buffer[-(len(last_entries) - i)]
-
-        self.process_tasks()
-
-    def has_available_resources_to_process_task(self, task):
-        task_can_be_processed = True
-        for type, value in self.items():
-            if (self[type] - task[type] < 0):
-                task_can_be_processed = False
-        return task_can_be_processed
 
     """ after processing time release task and processor resources """
     def process_tasks(self):
@@ -52,7 +28,6 @@ class TaskProcessor(dict):
 
     """ reserve resource from current task processor """
     def reserve_resources(self, task):
-
         task['waiting_time'] = self.now - task['time_arrival'] if self.now - task['time_arrival'] >= 0 else 0
         for type, value in self.items():
             self[type] = self[type] - task[type]
