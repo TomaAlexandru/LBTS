@@ -20,7 +20,7 @@ class TaskProcessor(dict):
     def process_tasks(self):
         current_finished_tasks = []
         for i, task in enumerate(self.in_processing_tasks):
-            if task['time_arrival'] + task['time_processing'] <= self.now:
+            if task['time_arrival'] + task['waiting_time'] + task['time_processing'] <= self.now:
                 """ release resources """
                 self.release_resources(task)
                 current_finished_tasks.append(i)
@@ -31,6 +31,7 @@ class TaskProcessor(dict):
         task['waiting_time'] = self.now - task['time_arrival']
         for type, value in self.items():
             self[type] = self[type] - task[type]
+        task['current_resources_after_reserve'] = self.copy()
         self.in_processing_tasks.append(task)
 
     """ release resource from current task processor """
@@ -42,6 +43,6 @@ class TaskProcessor(dict):
             {
                 'processor_index': self.index,
                 'task': task,
-                'current_resources': self.copy()
+                'current_resources_after_finished': self.copy()
             }
         )

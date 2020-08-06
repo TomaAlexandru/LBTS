@@ -30,7 +30,7 @@ class Scheduler:
             taskProc.now = self.env.now
 
         """ SCHEDULE TASKS """
-        self.heuristicInstance.schedule(self.buffer)
+        self.heuristicInstance.schedule(self.buffer, taskProc.now)
 
         """ PROCESS TASKS """
         for i in range(self.env.number_of_task_processors):
