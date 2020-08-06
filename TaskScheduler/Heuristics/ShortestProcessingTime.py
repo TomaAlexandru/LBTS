@@ -7,7 +7,7 @@ class ShortestProcessingTime(Heuristics):
         self.finished_tasks = []
         self.number_of_task_processors = len(tasksProcessor)
 
-    def schedule(self, buffer):
+    def schedule(self, buffer, now):
         currently_no_processor_available = False
         """ take task from buffer one by one """
         while len(buffer) > 0:

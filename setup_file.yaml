@@ -5,7 +5,7 @@
     "memory": 512
     "disk": 1024
     "time_arrival": 3
-    "due_time": 3
+    "due_time": 10
     "time_processing": 10
   "system_latency": 2
 

@@ -3,14 +3,20 @@ from TaskScheduler.SimulationEnvironment import SimulationEnvironment
 from os import listdir
 from os.path import isfile, join
 from TaskScheduler.Heuristics.RoundRobin import RoundRobin
+from TaskScheduler.Heuristics.Random import Random
 from TaskScheduler.Heuristics.ShortestProcessingTime import ShortestProcessingTime
+from TaskScheduler.Heuristics.EarliestDueTime import EarliestDueTime
+from TaskScheduler.Heuristics.CriticalRatio import CriticalRatio
+from TaskScheduler.Heuristics.ReinforcementLearning import ReinforcementLearning
 
 
 def get_list():
     return [
         # Random,
         # RoundRobin,
-        ShortestProcessingTime
+        # ShortestProcessingTime,
+        # EarliestDueTime,
+        CriticalRatio
     ]
 
 with open(r'setup_file.yaml') as file:
