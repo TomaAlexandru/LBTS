@@ -3,13 +3,14 @@ from TaskScheduler.SimulationEnvironment import SimulationEnvironment
 from os import listdir
 from os.path import isfile, join
 from TaskScheduler.Heuristics.RoundRobin import RoundRobin
+from TaskScheduler.Heuristics.ShortestProcessingTime import ShortestProcessingTime
 
 
 def get_list():
     return [
         # Random,
-        RoundRobin,
-        # ShortestProcessingTime
+        # RoundRobin,
+        ShortestProcessingTime
     ]
 
 with open(r'setup_file.yaml') as file:
@@ -41,3 +42,4 @@ with open(r'setup_file.yaml') as file:
                 scheduler.run()
             except Exception as e:
                 print(e)
+        exit()
