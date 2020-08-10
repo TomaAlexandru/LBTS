@@ -10,7 +10,7 @@
   "system_latency": 2
 
 "process": 
-  "number_of_task_processors": 1
+  "number_of_task_processors": 2
   "max_values_for_task_processor_parameters":
     "cpu": 12
     "memory": 11000

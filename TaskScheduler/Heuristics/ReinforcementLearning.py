@@ -8,6 +8,4 @@ class ReinforcementLearning:
             out_pipes[self.current_task_iterator].put(task)
 
     def __str__(self):
-        return 'roundRobin'
-
-    #
+        return 'reinforcementLearning'

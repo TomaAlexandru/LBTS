@@ -12,10 +12,10 @@ from TaskScheduler.Heuristics.ReinforcementLearning import ReinforcementLearning
 
 def get_list():
     return [
-        # Random,
-        # RoundRobin,
-        # ShortestProcessingTime,
-        # EarliestDueTime,
+        Random,
+        RoundRobin,
+        ShortestProcessingTime,
+        EarliestDueTime,
         CriticalRatio
     ]
 
@@ -48,4 +48,3 @@ with open(r'setup_file.yaml') as file:
                 scheduler.run()
             except Exception as e:
                 print(e)
-        exit()

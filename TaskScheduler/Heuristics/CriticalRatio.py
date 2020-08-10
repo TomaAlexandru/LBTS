@@ -14,7 +14,6 @@ class CriticalRatio(Heuristics):
 
         while len(buffer) > 0:
             buffer.sort(key=lambda e: e["critical_ratio"], reverse=True)
-            print(buffer)
             """ loop with a single task in processor cluster and try to schedule """
             for processor_index in range(0, self.number_of_task_processors):
                 task_scheduled = False
