@@ -9,11 +9,13 @@ class CriticalRatio(Heuristics):
 
     def schedule(self, buffer, now):
         currently_no_processor_available = False
-        """ take task from buffer one by one """
-        self.compute_critical_ratio(buffer, now)
+
+        if len(buffer) > 10:
+            """ take task from buffer one by one """
+            self.compute_critical_ratio(buffer, now)
+            buffer.sort(key=lambda e: e["critical_ratio"], reverse=True)
 
         while len(buffer) > 0:
-            buffer.sort(key=lambda e: e["critical_ratio"], reverse=True)
             """ loop with a single task in processor cluster and try to schedule """
             for processor_index in range(0, self.number_of_task_processors):
                 task_scheduled = False

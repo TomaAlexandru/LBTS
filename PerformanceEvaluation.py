@@ -24,14 +24,12 @@ with open('Reports/_overview.csv', 'w', newline='') as csvfile:
         performance_evaluations_criterion.append(max([t['task']['finished_at'] for t in tasks]))
 
         # average_time_of_jobs
-        performance_evaluations_criterion.append(np.mean([t['task']['waiting_time'] + t['task']['time_processing'] for t in tasks]))
+        performance_evaluations_criterion.append(int(np.mean([t['task']['waiting_time'] + t['task']['time_processing'] for t in tasks])))
 
         # lateness
-        performance_evaluations_criterion.append(sum([t['task']['waiting_time'] for t in tasks]))
+        performance_evaluations_criterion.append(int(np.mean([t['task']['waiting_time'] for t in tasks])))
 
         # sla_violation
-        performance_evaluations_criterion.append(sum([t['task']['sla_violation'] for t in tasks]))
+        performance_evaluations_criterion.append(int(np.mean([t['task']['sla_violation'] for t in tasks])))
 
         csvwriter.writerow(performance_evaluations_criterion)
-        for task in tasks:
-            pass

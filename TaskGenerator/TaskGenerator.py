@@ -17,7 +17,7 @@ class TaskGenerator:
         for i in range(self.number_of_taskProcessors):
             distribution = Distribution(self.resources_distribution, self.resources_max_values)
             task = distribution.get_generated_values()
-            task['time_arrival'] = (task['time_arrival'] - 1) + previous_arrival_time
+            task['time_arrival'] =0# (task['time_arrival'] - 1) + previous_arrival_time
             task['due_time'] = task['time_arrival'] + task['time_processing'] + task['due_time']
             previous_arrival_time = task['time_arrival']
             taskProcessors.append(task)

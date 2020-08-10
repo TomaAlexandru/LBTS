@@ -9,9 +9,12 @@ class ShortestProcessingTime(Heuristics):
 
     def schedule(self, buffer, now):
         currently_no_processor_available = False
+
+        if len(buffer) > 0:
+            buffer.sort(key=lambda e: e["time_processing"], reverse=True)
+
         """ take task from buffer one by one """
         while len(buffer) > 0:
-            buffer.sort(key=lambda e: e["time_processing"], reverse=True)
             """ loop with a single task in processor cluster and try to schedule """
             for processor_index in range(0, self.number_of_task_processors):
                 task_scheduled = False

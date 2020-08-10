@@ -25,8 +25,7 @@ class Scheduler:
     def schedule_tasks(self, tasks, task_resources_distributions):
         self.buffer = tasks[::-1] + self.buffer
 
-        """ SCHEDULE TASKS """
-        self.heuristicInstance.schedule(self.buffer, self.env.now)
+
 
         """ PROCESS TASKS """
         for i in range(self.env.number_of_task_processors):
@@ -35,9 +34,8 @@ class Scheduler:
         """ RECEIVE TASK PROCESSORS FINISHED TASKS """
         self.heuristicInstance.task_reception(self.env.number_of_tasks, task_resources_distributions, self.in_pipes)
 
-
-
-
+        """ SCHEDULE TASKS """
+        self.heuristicInstance.schedule(self.buffer, self.env.now)
 
     def has_processing_resources(self):
         for i in range(self.env.number_of_task_processors):

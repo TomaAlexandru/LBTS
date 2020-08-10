@@ -8,15 +8,15 @@ from TaskScheduler.Heuristics.ShortestProcessingTime import ShortestProcessingTi
 from TaskScheduler.Heuristics.EarliestDueTime import EarliestDueTime
 from TaskScheduler.Heuristics.CriticalRatio import CriticalRatio
 from TaskScheduler.Heuristics.ReinforcementLearning import ReinforcementLearning
-
+import copy
 
 def get_list():
     return [
         Random,
-        RoundRobin,
-        ShortestProcessingTime,
+        # RoundRobin,
+        # ShortestProcessingTime,
         EarliestDueTime,
-        CriticalRatio
+        # CriticalRatio
     ]
 
 with open(r'setup_file.yaml') as file:
@@ -34,9 +34,11 @@ with open(r'setup_file.yaml') as file:
     schedulers = {}
     for taskFile in taskFiles:
         task_resources_distributions = taskFile.split(".")[0]
-        file = open("GeneratedTasks/%s.json" % task_resources_distributions, "r")
-        tasks = json.loads(file.read())
+
+
         for heuristic in get_list():
+            file = open("GeneratedTasks/%s.json" % task_resources_distributions, "r")
+            tasks = json.loads(file.read())
             try:
                 scheduler = SimulationEnvironment(
                     tasks,
