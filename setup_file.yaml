@@ -9,8 +9,8 @@
     "time_processing": 4
 
 "process": 
-  "number_of_task_processors": 1
+  "number_of_task_processors": 20
   "max_values_for_task_processor_parameters":
     "cpu": 20
-    "memory": 11000
-    "disk": 20000
+    "memory": 1000
+    "disk": 2000

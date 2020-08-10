@@ -1,0 +1,6 @@
+HEURISTIC,MAKESPAN,AVERAGE TIME OF JOB,LATENESS,SLA VIOLATION
+normal_criticalRatio,306,119,118,113
+normal_earliestDueDate,305,140,138,133
+normal_random,299,149,147,143
+normal_roundRobin,305,152,150,145
+normal_shortestProcessingTime,305,118,116,111

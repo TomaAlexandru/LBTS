@@ -13,10 +13,10 @@ import copy
 def get_list():
     return [
         Random,
-        # RoundRobin,
-        # ShortestProcessingTime,
+        RoundRobin,
+        ShortestProcessingTime,
         EarliestDueTime,
-        # CriticalRatio
+        CriticalRatio
     ]
 
 with open(r'setup_file.yaml') as file:
