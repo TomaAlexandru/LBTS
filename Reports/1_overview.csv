@@ -1,0 +1,11 @@
+RESOURCE DISTRIBUTION,ALGORITHM,MAKESPAN,AVERAGE TIME OF JOB,LATENESS,SLA VIOLATION
+normal,criticalRatio,2142,821,819,815
+normal,earliestDueDate,2129,1026,1024,1020
+normal,random,2145,1052,1050,1045
+normal,roundRobin,2130,1054,1052,1048
+normal,shortestProcessingTime,2190,834,833,828
+uniform,criticalRatio,2999,1043,1040,1035
+uniform,earliestDueDate,2960,1372,1370,1364
+uniform,random,2966,1370,1367,1362
+uniform,roundRobin,2952,1375,1373,1367
+uniform,shortestProcessingTime,3010,1038,1035,1030

@@ -21,6 +21,6 @@ class TaskGenerator:
             previous_arrival_time = task['time_arrival']
             taskProcessors.append(task)
         for t in taskProcessors:
-            t['time_arrival'] = int(t['time_arrival'] / 100)
+            t['time_arrival'] = int(t['time_arrival'] / 50)
             t['due_time'] = t['time_arrival'] + t['time_processing'] + t['due_time']
         return taskProcessors

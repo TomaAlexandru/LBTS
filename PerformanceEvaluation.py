@@ -3,9 +3,9 @@ from os.path import isfile, join
 import json, csv
 import numpy as np
 
-with open('Reports/_overview.csv', 'w', newline='') as csvfile:
+with open('Reports/1_overview.csv', 'w', newline='') as csvfile:
     csvwriter = csv.writer(csvfile)
-    csvwriter.writerow(['HEURISTIC', 'MAKESPAN', 'AVERAGE TIME OF JOB', 'LATENESS', 'SLA VIOLATION'])
+    csvwriter.writerow(['RESOURCE DISTRIBUTION', 'ALGORITHM', 'MAKESPAN', 'AVERAGE TIME OF JOB', 'LATENESS', 'SLA VIOLATION'])
 
 
     reportFiles = [f for f in listdir("Reports") if isfile(join("Reports", f))]
@@ -18,7 +18,9 @@ with open('Reports/_overview.csv', 'w', newline='') as csvfile:
         performance_evaluations_criterion = []
 
         # heuristic
-        performance_evaluations_criterion.append(reportFile.split('.')[0])
+        performance_evaluations_criterion.append(reportFile.split('.')[0].split("_")[0])
+
+        performance_evaluations_criterion.append(reportFile.split('.')[0].split("_")[1])
 
         # makespan
         performance_evaluations_criterion.append(max([t['task']['finished_at'] for t in tasks]))
