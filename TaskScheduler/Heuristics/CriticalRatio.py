@@ -10,7 +10,7 @@ class CriticalRatio(Heuristics):
     def schedule(self, buffer, now):
         currently_no_processor_available = False
 
-        if len(buffer) > 10:
+        if len(buffer) > 0:
             """ take task from buffer one by one """
             self.compute_critical_ratio(buffer, now)
             buffer.sort(key=lambda e: e["critical_ratio"], reverse=True)
