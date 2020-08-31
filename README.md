@@ -1,4 +1,4 @@
-# Task Scheduling Using Reinforcement Learning
+# Load Balancing and Task Scheduling
 
 There is a lot of research in the field of task scheduling but there are not many cases in which they focus around simulations or concrete examples. Scheduling in the distributed environment remains an unresolved issue due to its extremely varied characteristics: the nature of the tasks, the system architecture, the requirements of the tasks in business terms, what defines a good scheduler.
 In this paper we will focus exclusively on creating a simulation environment for the entry of certain sets of tasks in a system in which it is desired to execute them in the most efficient way, efficient way in the current case means that we want to find which is the best order for tasks to be executed in order to reduce makespan, average time of a job spent in system, lateness and sla_violation.
@@ -29,6 +29,7 @@ python GenerateTasks.py
 ```
 It reads the file ‘setup_file.yaml’ from the root directory of the project and based on the parameters mentioned below it starts generating tasks in 'GeneratedTasks' directory
 ##### DataVisualization
+Module is used to visualize generated data.
 ##### TaskScheduler
 ```bash
 python ScheduleTasks.py
