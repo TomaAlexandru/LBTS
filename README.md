@@ -30,6 +30,15 @@ python GenerateTasks.py
 It reads the file ‘setup_file.yaml’ from the root directory of the project and based on the parameters mentioned below it starts generating tasks in 'GeneratedTasks' directory
 ##### DataVisualization
 Module is used to visualize generated data.
+
+For example after generation we will have two type of distribution:
+
+Normal Distribution
+<img src="https://raw.githubusercontent.com/TomaAlexandru/LBTS/master/Resources/normal_dist.jpg" />
+
+Uniform Distribution
+<img src="https://raw.githubusercontent.com/TomaAlexandru/LBTS/master/Resources/uniform_dist.jpg" />
+
 ##### TaskScheduler
 ```bash
 python ScheduleTasks.py
