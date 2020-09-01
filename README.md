@@ -33,10 +33,12 @@ Module is used to visualize generated data.
 
 For example after generation we will have two type of distribution:
 
-Normal Distribution
+###### Normal Distribution
+
 <img src="https://raw.githubusercontent.com/TomaAlexandru/LBTS/master/Resources/normal_dist.jpg" />
 
-Uniform Distribution
+###### Uniform Distribution
+
 <img src="https://raw.githubusercontent.com/TomaAlexandru/LBTS/master/Resources/uniform_dist.jpg" />
 
 ##### TaskScheduler
