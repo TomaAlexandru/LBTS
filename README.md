@@ -27,7 +27,38 @@ pip install -r requirements.txt
 ```bash
 python GenerateTasks.py
 ```
-It reads the file ‘setup_file.yaml’ from the root directory of the project and based on the parameters mentioned below it starts generating tasks in 'GeneratedTasks' directory
+It reads the file ‘setup_file.yaml’ from the root directory of the project and based on the parameters mentioned below it starts generating tasks in 'GeneratedTasks' directory.
+
+Setup file holds all maximum value of each resource from a task
+```yaml
+"generate":
+  "number_of_tasks": 20000
+  "max_values_for_task_parameters":
+    "cpu": 20
+    "memory": 1000
+    "disk": 2000
+    "time_arrival": 2
+    "due_time": 5
+    "time_processing": 4
+```
+
+After running Task Generator we get json files with number of tasks specified for each distribution declared:
+
+```bash GeneratedTasks/distribution.json```
+
+Task Example:
+
+```json
+{
+    "cpu": 11,
+    "memory": 61,
+    "disk": 617,
+    "time_arrival": 3,
+    "due_time": 6,
+    "time_processing": 2
+}
+```
+
 ##### DataVisualization
 Module is used to visualize generated data.
 
@@ -47,6 +78,21 @@ python ScheduleTasks.py
 ```
 Files with resulted tasks are generated in 'Reports' directory.
 This module is designed to simulate a distributed system in which the incoming tasks initially end up in a scheduler, which has the role of sending, to be processed, the tasks to the task processors.
+
+After runing setup for task processor are read from setup file (setup_file.yaml) and task processors are generated as specified bellow.
+
+```yaml
+"process":
+  "number_of_task_processors": 15
+  "max_values_for_task_processor_parameters":
+    "cpu": 20
+    "memory": 1000
+    "disk": 2000
+```
+
+After scheduling and processing all tasks pass in finished state and are written in files in 'Reports' directory and are prepared for performance evaluation.
+
+
 ##### PerformanceEvaluation
 ```bash
 python PerformanceEvaluation.py
