@@ -39,7 +39,7 @@ For example after generation we will have two type of distribution:
 
 ###### Uniform Distribution
 
-&nbsp;&nbsp;&nbsp;&nbsp;<img src="https://raw.githubusercontent.com/TomaAlexandru/LBTS/master/Resources/uniform_dist.jpg" />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="https://raw.githubusercontent.com/TomaAlexandru/LBTS/master/Resources/uniform_dist.jpg" />
 
 ##### TaskScheduler
 ```bash
