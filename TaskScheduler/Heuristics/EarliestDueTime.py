@@ -1,5 +1,7 @@
 from .Heuristics import Heuristics
 
+
+""" This algorithm is schedule tasks by the lowest due time first"""
 class EarliestDueTime(Heuristics):
     def __init__(self, tasksProcessor):
         self.parent = super().__init__(tasksProcessor)
@@ -10,6 +12,7 @@ class EarliestDueTime(Heuristics):
     def schedule(self, buffer, now):
         currently_no_processor_available = False
 
+        """ sort by due date discending """
         if len(buffer) > 0:
             buffer.sort(key=lambda e: e["due_time"], reverse=True)
 

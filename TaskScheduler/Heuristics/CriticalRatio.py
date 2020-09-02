@@ -1,5 +1,8 @@
 from .Heuristics import Heuristics
 
+
+""" This algorithm is designed to calculate urgency of a task and process them in specific order 
+the less is critical ration, the bigger the urgency"""
 class CriticalRatio(Heuristics):
     def __init__(self, tasksProcessor):
         self.parent = super().__init__(tasksProcessor)
@@ -13,6 +16,7 @@ class CriticalRatio(Heuristics):
         if len(buffer) > 0:
             """ take task from buffer one by one """
             self.compute_critical_ratio(buffer, now)
+            """ sort by critical ratio descending """
             buffer.sort(key=lambda e: e["critical_ratio"], reverse=True)
 
         while len(buffer) > 0:
@@ -36,6 +40,7 @@ class CriticalRatio(Heuristics):
             if currently_no_processor_available:
                 break
 
+    """ compute critical ration for each task """
     def compute_critical_ratio(self, buffer, now):
         for task in buffer:
             task['critical_ratio'] = (task['due_time'] - now) / task['time_processing']

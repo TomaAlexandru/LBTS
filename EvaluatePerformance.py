@@ -1,15 +1,21 @@
+"""
+This module is designed to evaluate performance of algorithms by reading data from Reports directory
+"""
+
 from os import listdir
 from os.path import isfile, join
 import json, csv
 import numpy as np
 
-with open('Reports/1_overview.csv', 'w', newline='') as csvfile:
+""" we open an overview.csv file """
+with open('Reports/overview.csv', 'w', newline='') as csvfile:
     csvwriter = csv.writer(csvfile)
+    """ we create a header of table """
     csvwriter.writerow(['RESOURCE DISTRIBUTION', 'ALGORITHM', 'MAKESPAN', 'AVERAGE TIME OF JOB', 'LATENESS', 'SLA VIOLATION'])
-
 
     reportFiles = [f for f in listdir("Reports") if isfile(join("Reports", f))]
 
+    """ for each file from reports we compute mean of the most important metrics """
     for reportFile in reportFiles:
         if 'overview' in reportFile:
             continue
@@ -34,4 +40,5 @@ with open('Reports/1_overview.csv', 'w', newline='') as csvfile:
         # sla_violation
         performance_evaluations_criterion.append(int(np.mean([t['task']['sla_violation'] for t in tasks])))
 
+        # write data
         csvwriter.writerow(performance_evaluations_criterion)

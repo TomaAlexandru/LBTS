@@ -1,8 +1,8 @@
-# pick random task and put on random task processor
-
 from .Heuristics import Heuristics
 import random
 
+
+""" This algorithm is schedule tasks randomly """
 class Random(Heuristics):
     def __init__(self, tasksProcessor):
         self.parent = super().__init__(tasksProcessor)

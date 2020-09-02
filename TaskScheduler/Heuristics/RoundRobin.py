@@ -1,5 +1,7 @@
 from .Heuristics import Heuristics
 
+
+""" This algorithm is schedule tasks round robin """
 class RoundRobin(Heuristics):
     def __init__(self, tasksProcessor):
         self.parent = super().__init__(tasksProcessor)

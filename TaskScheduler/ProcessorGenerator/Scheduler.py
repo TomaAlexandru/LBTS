@@ -1,31 +1,39 @@
 from .TaskProcessor import TaskProcessor
-import simpy, json
+import simpy
 
+
+""" Task Scheduler """
 class Scheduler:
     def __init__(self, env, heuristic):
+        """ assign to the current value, necessary properties """
         self.env = env
         self.env.scheduler_processor_pipe = simpy.Store(self.env)
         self.taskProcessors = []
         self.out_pipes = []
         self.in_pipes = []
         self.finished_tasks = []
-
-        self.finished_tasks = []
         self.buffer = []
+
+        """ for each task processor assign necessary properties """
         for i in range(self.env.number_of_task_processors):
+
+            """ out pipe is a resource used to send information from scheduler to task processor """
             out_pipe = simpy.Store(self.env)
+
+            """ out pipe is a resource used to send information from task processor to scheduler """
             in_pipe = simpy.Store(self.env)
+
+            """ we create task processor instance as specified in setup file """
             taskProcessor = TaskProcessor(self.env, i, out_pipe, in_pipe)
+
+            """ append tasks processor to a list in order to operate on it from the schedule algorithm """
             self.taskProcessors.append(taskProcessor)
-            self.out_pipes.append(out_pipe)
             self.in_pipes.append(in_pipe)
         self.heuristicInstance = heuristic(self.taskProcessors)
 
     """ method executed every time unit """
     def schedule_tasks(self, tasks, task_resources_distributions):
         self.buffer = tasks[::-1] + self.buffer
-
-
 
         """ PROCESS TASKS """
         for i in range(self.env.number_of_task_processors):
@@ -36,8 +44,3 @@ class Scheduler:
 
         """ SCHEDULE TASKS """
         self.heuristicInstance.schedule(self.buffer, self.env.now)
-
-    def has_processing_resources(self):
-        for i in range(self.env.number_of_task_processors):
-            return True
-        return False

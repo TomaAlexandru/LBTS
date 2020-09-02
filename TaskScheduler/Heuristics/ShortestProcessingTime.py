@@ -1,5 +1,6 @@
 from .Heuristics import Heuristics
 
+""" This algorithm is schedule tasks by shortest processing time first """
 class ShortestProcessingTime(Heuristics):
     def __init__(self, tasksProcessor):
         self.parent = super().__init__(tasksProcessor)
