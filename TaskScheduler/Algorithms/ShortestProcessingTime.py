@@ -1,8 +1,7 @@
-from .Heuristics import Heuristics
+from .Algorithm import Algorithm
 
-
-""" This algorithm is schedule tasks round robin """
-class RoundRobin(Heuristics):
+""" This algorithm is schedule tasks by shortest processing time first """
+class ShortestProcessingTime(Algorithm):
     def __init__(self, tasksProcessor):
         self.parent = super().__init__(tasksProcessor)
         self.current_task_iterator = 0
@@ -11,14 +10,18 @@ class RoundRobin(Heuristics):
 
     def schedule(self, buffer, now):
         currently_no_processor_available = False
+
+        if len(buffer) > 0:
+            buffer.sort(key=lambda e: e["time_processing"], reverse=True)
+
         """ take task from buffer one by one """
         while len(buffer) > 0:
             """ loop with a single task in processor cluster and try to schedule """
             for processor_index in range(0, self.number_of_task_processors):
                 task_scheduled = False
-
                 """ IF WE FIND AVAILABLE PROCESSOR WE REMOVE FROM BUFFER AND MARK INNER ITERATION FOR BREAK """
-                if self.has_available_resources_to_process_task(self.processors[self.current_task_iterator], buffer[-1]):
+                if self.has_available_resources_to_process_task(self.processors[self.current_task_iterator],
+                                                                buffer[-1]):
                     self.processors[self.current_task_iterator].reserve_resources(buffer[-1])
                     del buffer[-1]
                     task_scheduled = True
@@ -33,7 +36,5 @@ class RoundRobin(Heuristics):
             if currently_no_processor_available:
                 break
 
-
-
     def __str__(self):
-        return 'roundRobin'
+        return 'shortestProcessingTime'

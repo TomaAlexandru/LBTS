@@ -2,20 +2,8 @@ import json, yaml
 from TaskScheduler.SimulationEnvironment import SimulationEnvironment
 from os import listdir
 from os.path import isfile, join
-from TaskScheduler.Heuristics.RoundRobin import RoundRobin
-from TaskScheduler.Heuristics.Random import Random
-from TaskScheduler.Heuristics.ShortestProcessingTime import ShortestProcessingTime
-from TaskScheduler.Heuristics.EarliestDueTime import EarliestDueTime
-from TaskScheduler.Heuristics.CriticalRatio import CriticalRatio
-
-""" scheduling algorithms """
-scheduling_algorithms = [
-        Random,
-        RoundRobin,
-        ShortestProcessingTime,
-        EarliestDueTime,
-        CriticalRatio
-    ]
+from TaskScheduler.Algorithms.Algorithm import Algorithm
+import threading
 
 """ read setup file for environment data """
 with open(r'setup_file.yaml') as file:
@@ -35,7 +23,7 @@ with open(r'setup_file.yaml') as file:
     for taskFile in taskFiles:
         task_resources_distributions = taskFile.split(".")[0]
 
-        for heuristic in scheduling_algorithms:
+        for heuristic in Algorithm.__subclasses__():
             file = open("GeneratedTasks/%s.json" % task_resources_distributions, "r")
             tasks = json.loads(file.read())
             try:
@@ -47,6 +35,10 @@ with open(r'setup_file.yaml') as file:
                     number_of_tasks,
                     task_resources_distributions,
                     heuristic)
-                scheduler.run()
+                def run(scheduler):
+                    scheduler.run()
+                thr = threading.Thread(target=run, args=([scheduler]), kwargs={})
+                thr.start()
+                print("ZZZ")
             except Exception as e:
                 print(e)

@@ -1,9 +1,8 @@
-from .Heuristics import Heuristics
-import random
+from .Algorithm import Algorithm
 
 
-""" This algorithm is schedule tasks randomly """
-class Random(Heuristics):
+""" This algorithm is schedule tasks by the lowest due time first"""
+class EarliestDueTime(Algorithm):
     def __init__(self, tasksProcessor):
         self.parent = super().__init__(tasksProcessor)
         self.current_task_iterator = 0
@@ -13,20 +12,20 @@ class Random(Heuristics):
     def schedule(self, buffer, now):
         currently_no_processor_available = False
 
+        """ sort by due date discending """
+        if len(buffer) > 0:
+            buffer.sort(key=lambda e: e["due_time"], reverse=True)
+
         """ take task from buffer one by one """
         while len(buffer) > 0:
             """ loop with a single task in processor cluster and try to schedule """
-            random_task_index = random.choice([*range(len(buffer))])
-            random_processor_indexes = [*range(self.number_of_task_processors)]
-            random.shuffle(random_processor_indexes)
             for processor_index in range(0, self.number_of_task_processors):
                 task_scheduled = False
-                #self.current_task_iterator = random_processor_indexes[processor_index]
                 """ IF WE FIND AVAILABLE PROCESSOR WE REMOVE FROM BUFFER AND MARK INNER ITERATION FOR BREAK """
                 if self.has_available_resources_to_process_task(self.processors[self.current_task_iterator],
-                                                                buffer[random_task_index]):
-                    self.processors[self.current_task_iterator].reserve_resources(buffer[random_task_index])
-                    del buffer[random_task_index]
+                                                                buffer[-1]):
+                    self.processors[self.current_task_iterator].reserve_resources(buffer[-1])
+                    del buffer[-1]
                     task_scheduled = True
                 self.current_task_iterator = (self.current_task_iterator + 1) % self.number_of_task_processors
                 """ IF TASK WAS SCHEDULED GO TO NEXT TASK -> THUS OUTER LOOP """
@@ -37,7 +36,7 @@ class Random(Heuristics):
                     currently_no_processor_available = True
 
             if currently_no_processor_available:
-                break
+                return
 
     def __str__(self):
-        return 'random'
+        return 'earliestDueDate'

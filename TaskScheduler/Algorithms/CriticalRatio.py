@@ -1,8 +1,9 @@
-from .Heuristics import Heuristics
+from .Algorithm import Algorithm
 
 
-""" This algorithm is schedule tasks by the lowest due time first"""
-class EarliestDueTime(Heuristics):
+""" This algorithm is designed to calculate urgency of a task and process them in specific order 
+the less is critical ration, the bigger the urgency"""
+class CriticalRatio(Algorithm):
     def __init__(self, tasksProcessor):
         self.parent = super().__init__(tasksProcessor)
         self.current_task_iterator = 0
@@ -12,11 +13,12 @@ class EarliestDueTime(Heuristics):
     def schedule(self, buffer, now):
         currently_no_processor_available = False
 
-        """ sort by due date discending """
         if len(buffer) > 0:
-            buffer.sort(key=lambda e: e["due_time"], reverse=True)
+            """ take task from buffer one by one """
+            self.compute_critical_ratio(buffer, now)
+            """ sort by critical ratio descending """
+            buffer.sort(key=lambda e: e["critical_ratio"], reverse=True)
 
-        """ take task from buffer one by one """
         while len(buffer) > 0:
             """ loop with a single task in processor cluster and try to schedule """
             for processor_index in range(0, self.number_of_task_processors):
@@ -36,7 +38,12 @@ class EarliestDueTime(Heuristics):
                     currently_no_processor_available = True
 
             if currently_no_processor_available:
-                return
+                break
+
+    """ compute critical ration for each task """
+    def compute_critical_ratio(self, buffer, now):
+        for task in buffer:
+            task['critical_ratio'] = (task['due_time'] - now) / task['time_processing']
 
     def __str__(self):
-        return 'earliestDueDate'
+        return 'criticalRatio'

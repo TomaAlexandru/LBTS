@@ -2,7 +2,7 @@ import json
 
 
 """ The current class is the parent method for all algorithms and contains the common method for all algorithm class """
-class Heuristics(dict):
+class Algorithm(dict):
 
     """ constructor receives all task processor as parameters in order to operate them """
     def __init__(self, taskProcessors):
