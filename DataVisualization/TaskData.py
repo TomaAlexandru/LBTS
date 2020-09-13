@@ -29,16 +29,10 @@ class TaskData:
         axs[2].set_title('MEMORY')
         plt.show()
 
-    """ to be disregard """
-    """ basic example, with hardcoded values, of shortest processing time algorithm """
-    def display_timeline_spt(self):
-        """ job names """
-        jobs = ['T1', 'T2', 'T3', 'T4', 'T5']
-
-        """ 5 jobs to process in a unit of time """
-        waittimes = [1, 4, 12, 16, 10]
-        runtimes = [4, 7, 5, 6, 3]
-
+    """ basic example, ex: of shortest processing time algorithm
+        job names
+        n jobs to process in a unit of time """
+    def display_timeline(self, jobs, waittimes, runtimes):
         """ build timeline chart by above data """
         fig = plt.figure()
         ax = fig.add_subplot(111)
