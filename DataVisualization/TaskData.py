@@ -33,11 +33,11 @@ class TaskData:
     """ basic example, with hardcoded values, of shortest processing time algorithm """
     def display_timeline_spt(self):
         """ job names """
-        jobs = ['P1', 'P2', 'P3', 'P4', 'P5']
+        jobs = ['T1', 'T2', 'T3', 'T4', 'T5']
 
         """ 5 jobs to process in a unit of time """
-        waittimes = [0, 3, 11, 15, 9]
-        runtimes = [3, 6, 4, 5, 2]
+        waittimes = [1, 4, 12, 16, 10]
+        runtimes = [4, 7, 5, 6, 3]
 
         """ build timeline chart by above data """
         fig = plt.figure()
