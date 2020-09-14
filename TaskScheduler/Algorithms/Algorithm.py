@@ -1,5 +1,5 @@
 import json
-
+from TaskScheduler.Exceptions.TerminatedException import TerminatedException
 
 """ The current class is the parent method for all algorithms and contains the common method for all algorithm class """
 class Algorithm(dict):
@@ -28,7 +28,7 @@ class Algorithm(dict):
                     json.dump(self.finished_tasks, data_file, indent=4, sort_keys=True)
                 """ we raise an exception when finished task number reach initial task number in order to signal
                     the scheduler that we have finished the current iteration """
-                raise Exception(task_resources_distributions, self.__str__())
+                raise TerminatedException(task_resources_distributions, self.__str__())
 
     """ we continuously have data regarding task processors loading """
     def update_processor_states(self, current_finished_tasks):

@@ -4,15 +4,15 @@ import simpy
 
 """ Task Scheduler """
 class Scheduler:
-    def __init__(self, env, heuristic):
+    def __init__(self, env):
         """ assign to the current value, necessary properties """
         self.env = env
-        self.env.scheduler_processor_pipe = simpy.Store(self.env)
         self.taskProcessors = []
         self.out_pipes = []
         self.in_pipes = []
         self.finished_tasks = []
         self.buffer = []
+        self.task_resources_distributions = env.task_resources_distributions
 
         """ for each task processor assign necessary properties """
         for i in range(self.env.number_of_task_processors):
@@ -29,10 +29,10 @@ class Scheduler:
             """ append tasks processor to a list in order to operate on it from the schedule algorithm """
             self.taskProcessors.append(taskProcessor)
             self.in_pipes.append(in_pipe)
-        self.heuristicInstance = heuristic(self.taskProcessors)
+        self.algorithmInstance = env.algorithm(self.taskProcessors)
 
     """ method executed every time unit """
-    def schedule_tasks(self, tasks, task_resources_distributions):
+    def schedule_tasks(self, tasks):
         self.buffer = tasks[::-1] + self.buffer
 
         """ PROCESS TASKS """
@@ -40,7 +40,7 @@ class Scheduler:
             self.taskProcessors[i].process_tasks()
 
         """ RECEIVE TASK PROCESSORS FINISHED TASKS """
-        self.heuristicInstance.task_reception(self.env.number_of_tasks, task_resources_distributions, self.in_pipes)
+        self.algorithmInstance.task_reception(self.env.number_of_tasks, self.task_resources_distributions, self.in_pipes)
 
         """ SCHEDULE TASKS """
-        self.heuristicInstance.schedule(self.buffer, self.env.now)
+        self.algorithmInstance.schedule(self.buffer, self.env.now)
