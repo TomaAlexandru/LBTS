@@ -72,26 +72,26 @@ class TaskData:
         axs[1].set_title('Normal')
         plt.show()
 
-    def display_performance_evaluation(self):
+    def display_performance_evaluation(self, distribution, column):
 
         # This next line makes our charts show up in the notebook
 
-        table = pd.read_csv("Reports/overview.csv")
+        table = pd.read_csv("Reports/Evaluation/%s.csv" % distribution)
 
         # Create our bar chart as before
-        plt.bar(x=np.arange(1, 11), height=table['LATENESS'])
+        plt.bar(x=np.arange(1, 6), height=table[column])
 
         # Give it a title
-        plt.title("Performance Evaluation")
+        plt.title("Performance Evaluation: %s distribution" % distribution)
 
         # Give the x axis some labels across the tick marks.
         # Argument one is the position for each label
         # Argument two is the label values and the final one is to rotate our labels
-        plt.xticks(np.arange(1, 11), table['ALGORITHM'], rotation=90)
+        plt.xticks(np.arange(1, 6), table['ALGORITHM'], rotation=25)
 
         # Give the x and y axes a title
         plt.xlabel("ALGORITHM")
-        plt.ylabel("LATENESS")
+        plt.ylabel(column)
 
         # Finally, show me our new plot
         plt.show()
