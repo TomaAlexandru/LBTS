@@ -13,7 +13,7 @@ class TaskProcessor(dict):
         self.out_pipe = out_pipe
         self.has_resources = True
 
-        for type, value in env.task_processor_resource.items():
+        for type, value in env.taskProcessors[index].items():
             self[type] = value
 
         self.in_processing_tasks = []

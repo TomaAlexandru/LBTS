@@ -12,10 +12,10 @@ class Scheduler:
         self.in_pipes = []
         self.finished_tasks = []
         self.buffer = []
-        self.task_resources_distributions = env.task_resources_distributions
+        self.task_resources_distribution_name = env.task_resources_distribution_name
 
         """ for each task processor assign necessary properties """
-        for i in range(self.env.number_of_task_processors):
+        for i in range(len(self.env.taskProcessors)):
 
             """ out pipe is a resource used to send information from scheduler to task processor """
             out_pipe = simpy.Store(self.env)
@@ -36,11 +36,11 @@ class Scheduler:
         self.buffer = tasks[::-1] + self.buffer
 
         """ PROCESS TASKS """
-        for i in range(self.env.number_of_task_processors):
+        for i in range(len(self.env.taskProcessors)):
             self.taskProcessors[i].process_tasks()
 
         """ RECEIVE TASK PROCESSORS FINISHED TASKS """
-        self.algorithmInstance.task_reception(self.env.number_of_tasks, self.task_resources_distributions, self.in_pipes)
+        self.algorithmInstance.task_reception(self.env.number_of_tasks, self.task_resources_distribution_name, self.in_pipes)
 
         """ SCHEDULE TASKS """
         self.algorithmInstance.schedule(self.buffer, self.env.now)

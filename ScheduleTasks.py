@@ -1,4 +1,4 @@
-import json, yaml, threading, time
+import json, yaml
 from TaskScheduler.SimulationEnvironment import SimulationEnvironment
 from os import listdir
 from os.path import isfile, join
@@ -40,4 +40,3 @@ with open(r'setup_file.yaml') as file:
                 print(e.get_message())
             except Exception as e:
                 print(e)
-

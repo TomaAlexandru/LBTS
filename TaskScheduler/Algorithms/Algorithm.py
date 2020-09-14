@@ -30,10 +30,6 @@ class Algorithm(dict):
                     the scheduler that we have finished the current iteration """
                 raise TerminatedException(task_resources_distributions, self.__str__())
 
-    """ we continuously have data regarding task processors loading """
-    def update_processor_states(self, current_finished_tasks):
-        for current_finished_task in current_finished_tasks:
-            self.processors[current_finished_task['processor_index']] = current_finished_task['current_resources']
 
     """ check if a specific processor has enough resources in order to process a given task """
     def has_available_resources_to_process_task(self, processor, task):
