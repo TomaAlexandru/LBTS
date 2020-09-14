@@ -1,4 +1,6 @@
 import json
+import pandas as pd
+import numpy as np
 import matplotlib.pyplot as plt
 
 class TaskData:
@@ -68,4 +70,28 @@ class TaskData:
         axs[0].set_title('Uniform')
         axs[1].bar(list(time_arrival_normal.keys()), list(time_arrival_normal.values()))
         axs[1].set_title('Normal')
+        plt.show()
+
+    def display_performance_evaluation(self):
+
+        # This next line makes our charts show up in the notebook
+
+        table = pd.read_csv("Reports/overview.csv")
+
+        # Create our bar chart as before
+        plt.bar(x=np.arange(1, 11), height=table['LATENESS'])
+
+        # Give it a title
+        plt.title("Performance Evaluation")
+
+        # Give the x axis some labels across the tick marks.
+        # Argument one is the position for each label
+        # Argument two is the label values and the final one is to rotate our labels
+        plt.xticks(np.arange(1, 11), table['ALGORITHM'], rotation=90)
+
+        # Give the x and y axes a title
+        plt.xlabel("ALGORITHM")
+        plt.ylabel("LATENESS")
+
+        # Finally, show me our new plot
         plt.show()

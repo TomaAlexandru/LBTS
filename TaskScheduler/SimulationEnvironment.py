@@ -17,12 +17,10 @@ class SimulationEnvironment(simpy.Environment):
         self.task_resources_distribution_name = task_resources_distribution_name
         self.algorithm = algorithm
 
+        """ omogen / heterogeneous computing units """
         systemArchitecture = SystemArchitecture('omogen', number_of_task_processors, task_processor_resource)
         self.taskProcessors = systemArchitecture.get_task_processor_resources_list()
         self.scheduler = Scheduler(self)
-
-
-
 
         """ TaskProducer -> Queue """
         self.process(self.simulate())

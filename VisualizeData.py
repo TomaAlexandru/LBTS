@@ -20,6 +20,12 @@ elif args[1] == 'timeline':
         [4, 7, 5, 6, 3]
     )
 
+
+
+elif args[1] == 'performance':
+    """ plot time of arrival bar chart """
+    taskData.display_performance_evaluation()
+
 elif args[2] == 'arrival_time':
     """ plot time of arrival bar chart """
     taskData.task_arrival_time()
