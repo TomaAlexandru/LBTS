@@ -165,7 +165,17 @@ python VisualizeData.py distribution uniform
 
 <img src="https://raw.githubusercontent.com/TomaAlexandru/LBTS/master/Resources/uniform_dist.jpg" />
 
-###### Performance Evaluation
+###### Arrival Time of Task
+
+This is the rate at which computing system is fed with tasks.
+
+```bash
+python VisualizeData.py arrival_time
+```
+
+<img src="https://raw.githubusercontent.com/TomaAlexandru/LBTS/master/Resources/arrival_time.png" />
+
+###### Performance Evaluation - Visualize Data
 
 ```bash
 python VisualizeData.py evaluate normal 'SLA VIOLATION'

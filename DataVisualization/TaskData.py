@@ -78,8 +78,10 @@ class TaskData:
 
         table = pd.read_csv("Reports/Evaluation/%s.csv" % distribution)
 
+        print(table)
+
         # Create our bar chart as before
-        plt.bar(x=np.arange(1, 6), height=table[column])
+        plt.bar(x=np.arange(1, table.shape[0] + 1), height=table[column])
 
         # Give it a title
         plt.title("Performance Evaluation: %s distribution" % distribution)
@@ -87,7 +89,7 @@ class TaskData:
         # Give the x axis some labels across the tick marks.
         # Argument one is the position for each label
         # Argument two is the label values and the final one is to rotate our labels
-        plt.xticks(np.arange(1, 6), table['ALGORITHM'], rotation=25)
+        plt.xticks(np.arange(1, table.shape[0] + 1), table['ALGORITHM'], rotation=25)
 
         # Give the x and y axes a title
         plt.xlabel("ALGORITHM")

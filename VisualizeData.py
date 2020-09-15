@@ -25,7 +25,7 @@ elif args[1] == 'evaluate':
     """ distribution file, metrics"""
     taskData.display_performance_evaluation(args[2], args[3])
 
-elif args[2] == 'arrival_time':
+elif args[1] == 'arrival_time':
     """ plot time of arrival bar chart """
     taskData.task_arrival_time()
 

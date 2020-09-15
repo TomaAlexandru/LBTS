@@ -2,7 +2,7 @@ from .Algorithm import Algorithm
 
 
 """ This algorithm is schedule tasks by the lowest due time first"""
-class EarliestDueTime(Algorithm):
+class LatestDueTime(Algorithm):
     def __init__(self, tasksProcessor):
         self.parent = super().__init__(tasksProcessor)
         self.current_task_iterator = 0
@@ -14,7 +14,7 @@ class EarliestDueTime(Algorithm):
 
         """ sort by due date descending """
         if len(buffer) > 0:
-            buffer.sort(key=lambda e: e["due_time"], reverse=True)
+            buffer.sort(key=lambda e: e["due_time"], reverse=False)
 
         """ take task from buffer one by one """
         while len(buffer) > 0:
@@ -39,4 +39,4 @@ class EarliestDueTime(Algorithm):
                 return
 
     def __str__(self):
-        return 'earliestDueDate'
+        return 'latestDueDate'

@@ -1,6 +1,7 @@
 ALGORITHM,MAKESPAN,AVERAGE TIME OF JOB,LATENESS,SLA VIOLATION
-random,5603,353,350,347
-criticalRatio,5675,333,330,327
-roundRobin,5686,400,397,394
-earliestDueDate,5696,409,406,403
-shortestProcessingTime,5695,254,251,248
+random,1689,767,765,761
+criticalRatio,1721,585,582,579
+latestDueDate,1696,806,803,800
+roundRobin,1694,776,774,771
+earliestDueDate,1710,774,771,768
+shortestProcessingTime,1741,585,582,579

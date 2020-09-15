@@ -1,15 +1,15 @@
 "generate":
-  "number_of_tasks": 5000
+  "number_of_tasks": 3000
   "max_values_for_task_parameters":
     "cpu": 20
     "memory": 1000
     "disk": 2000
-    "time_arrival": 3
+    "time_arrival": 40
     "due_time": 5
     "time_processing": 4
 
 "process":
-  "number_of_task_processors": 2
+  "number_of_task_processors": 4
   "max_values_for_task_processor_parameters":
     "cpu": 20
     "memory": 1000
