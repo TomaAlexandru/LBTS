@@ -4,7 +4,7 @@ cycler==0.10.0
 Django==3.0.7
 kiwisolver==1.2.0
 matplotlib==3.3.1
-numpy==1.19.2
+numpy==1.22.0
 pandas==1.1.2
 Pillow==7.2.0
 pyaml==20.4.0
